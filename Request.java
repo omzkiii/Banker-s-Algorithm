@@ -29,26 +29,47 @@ public class Request {
         System.out.println("\nAvailable ");
         System.out.println(avail.toString());
         int i = 0;
-        while(!queue.isEmpty()){
-            if(avail.get(2)>=queue.get(i).needArr.get(2)&&
-            avail.get(1)>=queue.get(i).needArr.get(1)&&
-            avail.get(0)>=queue.get(i).needArr.get(0)){
-                safetySequence.add(queue.get(i));
-                
-                for(int j = 0; j < 3; j++){
-                    avail.set(j, queue.get(i).allocArr.get(j) +  avail.get(j));
+        
+        int loopNum = queue.size();
+        boolean safetyChecker = true;
+        if(req.get(0) <= process.needArr.get(0) && req.get(0) <= avail.get(0)
+        && req.get(1) <= process.needArr.get(1) && req.get(1) <= avail.get(1)
+        && req.get(2) <= process.needArr.get(2) && req.get(2) <= avail.get(2)){
+            while(!queue.isEmpty()){
+                if(avail.get(2)>=queue.get(i).needArr.get(2)&&
+                avail.get(1)>=queue.get(i).needArr.get(1)&&
+                avail.get(0)>=queue.get(i).needArr.get(0)){
+                    safetySequence.add(queue.get(i));
+                    
+                    for(int j = 0; j < 3; j++){
+                        avail.set(j, queue.get(i).allocArr.get(j) +  avail.get(j));
+                    }
+                    System.out.println(avail.toString());
+                    
+                    queue.remove(i);
+                    loopNum++;
+                    i=0;
                 }
-                System.out.println(avail.toString());
-                
-                queue.remove(i);
-                i=0;
+                else
+                    i++;
+
+                loopNum--;
+                if(loopNum == 0){
+                    queue.clear();
+                    safetyChecker = false;
+                }
             }
-            else
-                i++;
+            if(safetyChecker == true){
+                System.out.println("\nSAFETY SEQUENCE: ");
+                for(int j = 0; j < safetySequence.size(); j++){
+                    System.out.print("  " + safetySequence.get(j).Pname);
+                }
+            }
+             else{
+                System.out.println("\nPossible deadlock detected!");
+            }
         }
-        System.out.println("\nSAFETY SEQUENCE: ");
-        for(int j = 0; j < safetySequence.size(); j++){
-            System.out.print("  " + safetySequence.get(j).Pname);
-        }
+        else
+            System.out.println("\nRequest cannot be granted!");
     }
 }

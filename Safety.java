@@ -16,10 +16,12 @@ public class Safety {
             System.out.println(queue.get(i).Pname+"      \t" + queue.get(i).maxArr.toString()+" \t" + queue.get(i).allocArr.toString()+" \t" + queue.get(i).needArr.toString());
         }
 
+        
         System.out.println("\nAvailable ");
         System.out.println(avail.toString());
-        
+        boolean safetyChecker = true;
         int i = 0;
+        int loopNum = queue.size();
         while(!queue.isEmpty()){
             if(avail.get(2)>=queue.get(i).needArr.get(2)&&
             avail.get(1)>=queue.get(i).needArr.get(1)&&
@@ -32,17 +34,33 @@ public class Safety {
                 System.out.println(avail.toString());
                 
                 queue.remove(i);
+                loopNum++;
             }
-            else
+            else{
                 i++;
+                
+            }
             if(i==queue.size())
                 i=0;
+            
+            loopNum--;
+                if(loopNum == 0){
+                    queue.clear();
+                    safetyChecker = false;
+                }
+            
         }
-    
-        System.out.println("\nSAFETY SEQUENCE: ");
-        for(int j = 0; j < safetySequence.size(); j++){
-            System.out.print("  " + safetySequence.get(j).Pname);
+        
+        
+        if(safetyChecker == true){
+            System.out.println("\nSAFETY SEQUENCE: ");
+            for(int j = 0; j < safetySequence.size(); j++){
+                System.out.print("  " + safetySequence.get(j).Pname);
 
+            }
+        }
+        else{
+            System.out.println("\nPossible deadlock detected!");
         }
     }
 }
