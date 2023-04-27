@@ -4,7 +4,7 @@ public class Safety {
         
     public static void safety(){
         
-        ArrayList<Process> safetySequence = new ArrayList<>();
+        //ArrayList<Process> safetySequence = new ArrayList<>();
         ArrayList<Process> queue = new ArrayList<>();
         queue = (ArrayList<Process>) Process.processes.clone();
         ArrayList<Integer> avail = new ArrayList<>();
@@ -26,7 +26,7 @@ public class Safety {
             if(avail.get(2)>=queue.get(i).needArr.get(2)&&
             avail.get(1)>=queue.get(i).needArr.get(1)&&
             avail.get(0)>=queue.get(i).needArr.get(0)){
-                safetySequence.add(queue.get(i));
+                Process.safetySequence.add(queue.get(i));
                 
                 for(int j = 0; j < 3; j++){
                     avail.set(j, queue.get(i).allocArr.get(j) +  avail.get(j));
@@ -54,10 +54,11 @@ public class Safety {
         
         if(safetyChecker == true){
             System.out.println("\nSAFETY SEQUENCE: ");
-            for(int j = 0; j < safetySequence.size(); j++){
-                System.out.print("  " + safetySequence.get(j).Pname);
+            for(int j = 0; j < Process.safetySequence.size(); j++){
+                System.out.print("  " + Process.safetySequence.get(j).Pname);
 
             }
+            Process.safetySequence.clear();
         }
         else{
             System.out.println("\nPossible deadlock detected!");
