@@ -35,17 +35,29 @@ public class Request {
         // if(req.get(0) <= process.needArr.get(0) && req.get(0) <= avail.get(0)
         // && req.get(1) <= process.needArr.get(1) && req.get(1) <= avail.get(1)
         // && req.get(2) <= process.needArr.get(2) && req.get(2) <= avail.get(2))
-        
-        if(0 <= process.needArr.get(0) && 0 <= avail.get(0)
-        && 0 <= process.needArr.get(1) && 0 <= avail.get(1)
-        && 0 <= process.needArr.get(2) && 0 <= avail.get(2)){
+        int dcounter = 0;
+        for(int resCounter = 0; resCounter < runner.InstanceNum; resCounter++){
+            if(0 <= process.needArr.get(resCounter) && 0 <= avail.get(resCounter))
+                dcounter = dcounter+ 1;
+        }
+        if(dcounter == runner.InstanceNum){
 
-
+        //if(0 <= process.needArr.get(0) && 0 <= avail.get(0)
+        //&& 0 <= process.needArr.get(1) && 0 <= avail.get(1)
+        //&& 0 <= process.needArr.get(2) && 0 <= avail.get(2)){
 
             while(!queue.isEmpty()){
-                if(avail.get(2)>=queue.get(i).needArr.get(2)&&
-                avail.get(1)>=queue.get(i).needArr.get(1)&&
-                avail.get(0)>=queue.get(i).needArr.get(0)){
+                //if(avail.get(2)>=queue.get(i).needArr.get(2)&&
+                //avail.get(1)>=queue.get(i).needArr.get(1)&&
+                //avail.get(0)>=queue.get(i).needArr.get(0)){
+
+                int acounter = 0;
+                for(int incounter = 0; incounter < runner.InstanceNum; incounter++){
+                    if(avail.get(incounter)>=queue.get(i).needArr.get(incounter))
+                        acounter = acounter + 1; 
+                }
+                if (acounter == runner.InstanceNum){
+                        
                     Process.safetySequence.add(queue.get(i));
                     
                     for(int j = 0; j < runner.InstanceNum; j++){

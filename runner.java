@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class runner {
-    static int InstanceNum = 3;
+    static int InstanceNum;
     public static void main(String[] args) {
         Process processReq;
         //int InstanceNum;
@@ -50,17 +50,12 @@ public class runner {
                 break;
 
             case 2:
-                for(int i = 0; i < InstanceNum; i++){
-                    Process.request.add(0);
-                    Process.totalResources.add(0);
-                    Process.available.add(0);
-                }
 
                 System.out.println("Enter number of processes: ");
                 int processSize = in.nextInt(); in.nextLine();
 
-                //System.out.println("Enter number of instances: ");
-                //int InstanceNum = in.nextInt(); in.nextLine();
+                System.out.println("Enter number of instances: ");
+                InstanceNum = in.nextInt(); in.nextLine();
                 for(int i = 0; i < processSize; i++){
                     Process p = new Process();
                     Process.processes.add(p);
@@ -69,7 +64,14 @@ public class runner {
                         Process.processes.get(i).allocArr.add(0);
                         Process.processes.get(i).needArr.add(0);
                         }
-                }        
+                }
+                
+                for(int i = 0; i < InstanceNum; i++){
+                    Process.request.add(0);
+                    Process.totalResources.add(0);
+                    Process.available.add(0);
+                }
+
                 for(int i = 0; i < processSize; i++){
                     // Process p = new Process();
                     // Process.processes.add(p);

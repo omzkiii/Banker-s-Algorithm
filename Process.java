@@ -37,7 +37,7 @@ public class Process {
 
     
     public static void getVal(String str, ArrayList<Integer> array) {
-        String[] arr = str.split(",", runner.InstanceNum);
+        String[] arr = str.split(",",runner.InstanceNum);
         for (int i = 0; i < runner.InstanceNum; i++) {
             // array.add(Integer.parseInt(arr[i]));
             array.set(i, Integer.parseInt(arr[i]));

@@ -23,12 +23,19 @@ public class Safety {
         int i = 0;
         int loopNum = queue.size();
         while(!queue.isEmpty()){
-            if(avail.get(2)>=queue.get(i).needArr.get(2)&&
-            avail.get(1)>=queue.get(i).needArr.get(1)&&
-            avail.get(0)>=queue.get(i).needArr.get(0)){
+            //if(avail.get(2)>=queue.get(i).needArr.get(2)&&
+            //avail.get(1)>=queue.get(i).needArr.get(1)&&
+            //avail.get(0)>=queue.get(i).needArr.get(0)){
+            
+            int acounter = 0;
+            for(int incounter = 0; incounter < runner.InstanceNum; incounter++){
+                if(avail.get(incounter)>=queue.get(i).needArr.get(incounter))
+                    acounter = acounter + 1; 
+            }
+            if (acounter == runner.InstanceNum){        
                 Process.safetySequence.add(queue.get(i));
                 
-                for(int j = 0; j < 3; j++){
+                for(int j = 0; j < runner.InstanceNum; j++){
                     avail.set(j, queue.get(i).allocArr.get(j) +  avail.get(j));
                 }
                 System.out.println(avail.toString());
