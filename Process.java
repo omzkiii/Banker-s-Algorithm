@@ -7,6 +7,7 @@ public class Process {
     public static ArrayList<Integer> request = new ArrayList<>();
     public static ArrayList<Process> processes = new ArrayList<>();
     public static ArrayList<Process> safetySequence = new ArrayList<>();
+    public static int arrOffSet = 0;
     ArrayList<Integer> maxArr = new ArrayList<>();
     ArrayList<Integer> allocArr = new ArrayList<>();
     ArrayList<Integer> needArr = new ArrayList<>();
@@ -15,16 +16,22 @@ public class Process {
     public void setVal(String max, String alloc, String name, Process process) {
         getVal(max, maxArr);
         getVal(alloc, allocArr);
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i < runner.InstanceNum; i++) {
             int digitNeed = maxArr.get(i) - allocArr.get(i);
             // needArr.add(digitNeed);
             needArr.set(i, digitNeed);
         }
         Pname = name;
-        if(max == alloc){
-            Process temp = processes.get(0);
-            processes.set(processes.indexOf(process), temp);
-            processes.set(0, process);
+        if(max.equals(alloc)){
+            ArrayList<Process> temp = new ArrayList<>();
+            temp = processes;
+            temp.remove(process);
+            processes.add(0, process);
+            for(int i = 1; i < temp.size(); i++){
+                processes.set(i, temp.get(i));
+            }
+            arrOffSet = arrOffSet + 1;
+
         }
     }
 
@@ -38,7 +45,10 @@ public class Process {
     }
 
     public static void getAvailable(String res){
-        ArrayList<Integer> totalAlloc = new ArrayList<>(Arrays.asList(0,0,0));
+        ArrayList<Integer> totalAlloc = new ArrayList<>();
+        for(int i = 0; i < runner.InstanceNum; i++){
+            totalAlloc.add(i, 0);
+        }
         getVal(res, totalResources);
         for(int i = 0; i < processes.size(); i++){
             for(int j = 0; j < runner.InstanceNum; j++){

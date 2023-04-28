@@ -11,7 +11,15 @@ public class Request {
         System.out.println("\n\n---=======REQUEST ALGORITHM=======---");
         System.out.println("\n" + queue.get(queue.indexOf(process)).Pname + " requested " + req.toString());
 
-        
+        for(int j = 0; j < runner.InstanceNum; j++){
+            queue.get(queue.indexOf(process)).allocArr.set(j, queue.get(queue.indexOf(process)).allocArr.get(j) +  req.get(j));
+        }
+        for(int j = 0; j < runner.InstanceNum; j++){
+            avail.set(j, avail.get(j) - req.get(j));
+        }
+        for(int j = 0; j < runner.InstanceNum; j++){
+            queue.get(queue.indexOf(process)).needArr.set(j, queue.get(queue.indexOf(process)).needArr.get(j) -  req.get(j));
+        }
 
         System.out.println("\nProcess \tMax     \tAlloc       \tNeed");
         for(int i = 0; i < queue.size(); i++){
@@ -24,19 +32,15 @@ public class Request {
         
         int loopNum = queue.size();
         boolean safetyChecker = true;
-        if(req.get(0) <= process.needArr.get(0) && req.get(0) <= avail.get(0)
-        && req.get(1) <= process.needArr.get(1) && req.get(1) <= avail.get(1)
-        && req.get(2) <= process.needArr.get(2) && req.get(2) <= avail.get(2)){
+        // if(req.get(0) <= process.needArr.get(0) && req.get(0) <= avail.get(0)
+        // && req.get(1) <= process.needArr.get(1) && req.get(1) <= avail.get(1)
+        // && req.get(2) <= process.needArr.get(2) && req.get(2) <= avail.get(2))
+        
+        if(0 <= process.needArr.get(0) && 0 <= avail.get(0)
+        && 0 <= process.needArr.get(1) && 0 <= avail.get(1)
+        && 0 <= process.needArr.get(2) && 0 <= avail.get(2)){
 
-            for(int j = 0; j < 3; j++){
-                queue.get(queue.indexOf(process)).allocArr.set(j, queue.get(queue.indexOf(process)).allocArr.get(j) +  req.get(j));
-            }
-            for(int j = 0; j < 3; j++){
-                avail.set(j, avail.get(j) - req.get(j));
-            }
-            for(int j = 0; j < 3; j++){
-                queue.get(queue.indexOf(process)).needArr.set(j, queue.get(queue.indexOf(process)).needArr.get(j) -  req.get(j));
-            }
+
 
             while(!queue.isEmpty()){
                 if(avail.get(2)>=queue.get(i).needArr.get(2)&&
@@ -44,7 +48,7 @@ public class Request {
                 avail.get(0)>=queue.get(i).needArr.get(0)){
                     Process.safetySequence.add(queue.get(i));
                     
-                    for(int j = 0; j < 3; j++){
+                    for(int j = 0; j < runner.InstanceNum; j++){
                         avail.set(j, queue.get(i).allocArr.get(j) +  avail.get(j));
                     }
                     System.out.println(avail.toString());
@@ -68,6 +72,8 @@ public class Request {
                     System.out.print("  " + Process.safetySequence.get(j).Pname);
                 }
                 Process.safetySequence.clear();
+
+                System.out.println("\n");
             }
              else{
                 System.out.println("\nPossible deadlock detected!");
